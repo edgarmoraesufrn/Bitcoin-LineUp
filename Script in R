@@ -1,0 +1,308 @@
+#### Bitcoin LineUp ####
+
+# Important days
+
+genesis <- as.Date("2009-01-03") 
+pizza.day <- as.Date("2010-05-22") 
+halving1 <- as.Date("2012-11-28") 
+halving2 <- as.Date("2016-7-09")
+halving3 <- as.Date("2020-05-11")
+
+BTCini <- pizza.day - genesis 
+wave1 <- halving1 - pizza.day
+wave2 <- halving2 - halving1
+wave3 <- halving3 - halving2
+
+
+#### Examples
+
+install.packages("signal")
+library("signal")
+
+b = c(40000,40000,40000,40000,40000,40000,40000,
+      41000,42000,44000,46000,48000,48000,48000,48000,48000,48000,
+      48000,48000,48000,48000)
+length(b)
+plot(b, type="l", main="Bitcoin LineUp: Example 1",col="green4", 
+     lwd=3, ylab="price", xlab="day")
+
+example.der1 <- sgolayfilt(b, n=5, m=1)
+example.der2 <- sgolayfilt(b, n=5, m=2)
+
+plot(example.der1*24, type="l", 
+     main="Bitcoin LineUp: Example 1 - 1st der",col="green", 
+     lwd=3, ylab="price", xlab="day")
+lines(b,type="l",col="green4",lwd=3)
+abline(v=10.4,lty=1,col="gray",lwd=2)
+
+plot(example.der2*100, type="l", 
+     main="Bitcoin LineUp: Example 2 - 2nd der",
+     col="green",lwd=3, ylab="price", xlab="day")
+lines(b,type="l",col="green4",lwd=3)
+abline(v=10.4,lty=1,col="gray",lwd=2)
+
+d = c(40000,40000,40000,40000,40000,40000,40000,
+      41000,42000,44000,46000,48000,48000,46000,47000,46000,45000,
+      46000,45000,44000,44000)
+
+length(d)
+
+plot(d, type="l", main="Bitcoin LineUp: Example 2",col="red4", 
+     lwd=3, ylab="price", xlab="day")
+
+example2.der1 <- sgolayfilt(d, n=5, m=1)
+example2.der2 <- sgolayfilt(d, n=5, m=2)
+
+plot(example2.der1*24, type="l", 
+     main="Bitcoin LineUp: Example 2 - 1st der",
+     col="red", 
+     lwd=3, ylab="price", xlab="day")
+lines(d,type="l",col="red4",lwd=3)
+
+
+plot(example2.der2*100, type="l", 
+     main="Bitcoin LineUp: Example 2 - 2nd der",
+     col="red",lwd=3, ylab="price", xlab="day")
+lines(d,type="l",col="red4",lwd=3)
+
+e = c(40000,40000,40000,40000,40000,40000,40000,
+      41000,42000,44000,46000,48000,46000,44000,44000,41000,40000,
+      40000,39000,39500,38000)
+
+length(e)
+
+plot(e, type="l", main="Bitcoin LineUp: Example 3",col="red2", 
+     lwd=3, ylab="price", xlab="day")
+
+example3.der1 <- sgolayfilt(e, n=5, m=1)
+example3.der2 <- sgolayfilt(e, n=5, m=2)
+
+plot(example3.der1*24, type="l", main="Bitcoin LineUp: Example 3 - 1st der",
+     col="red4", 
+     lwd=3, ylab="price", xlab="day")
+lines(e,type="l",col="red",lwd=3)
+
+plot(example3.der2*100, type="l", main="Bitcoin LineUp: Example 3 - 2nd der",
+     col="red4",lwd=3, ylab="price", xlab="day")
+lines(e,type="l",col="red",lwd=3)
+
+a = c(40000,40000,40000,40000,40000,40000,40000,
+      41000,42000,44000,46000,48000,46000,48000,48000,49000,48000,
+      49000,51000,50500,53000)
+
+length(a)
+
+plot(a, type="l", main="Bitcoin LineUp: Example 4",col="blue", 
+     lwd=3, ylab="price", xlab="day")
+
+example4.der1 <- sgolayfilt(a, n=5, m=1)
+example4.der2 <- sgolayfilt(a, n=5, m=2)
+
+plot(example4.der1*24, type="l", main="Bitcoin LineUp: Example 4 - 1st der",
+     col="blue4", 
+     lwd=3, ylab="price", xlab="day")
+lines(a,type="l",col="blue",lwd=3)
+
+plot(example4.der2*100, type="l", main="Bitcoin LineUp: Example 4 - 2nd der",
+     col="blue4",lwd=3, ylab="price", xlab="day")
+lines(a,type="l",col="blue",lwd=3)
+
+f = c(40000,40000,40000,40000,40000,40000,40000,
+      41000,42000,44000,46000,48000,46000,48000,48000,49000,48000,
+      49000,51000,50500,49000)
+
+length(f)
+
+plot(f, type="l", main="Bitcoin LineUp: Example 5",col="violet", 
+     lwd=3, ylab="price", xlab="day")
+
+example5.der1 <- sgolayfilt(f, n=5, m=1)
+example5.der2 <- sgolayfilt(f, n=5, m=2)
+
+plot(example5.der1*24, type="l", main="Bitcoin LineUp: Example 5 - 1st der",
+     col="darkviolet", 
+     lwd=3, ylab="price", xlab="day")
+lines(f,type="l",col="violet",lwd=3)
+
+plot(example5.der2*100, type="l", main="Bitcoin LineUp: Example 5 - 2nd der",
+     col="darkviolet",lwd=3, ylab="price", xlab="day")
+lines(f,type="l",col="violet",lwd=3)
+
+# get ticker from market
+
+# source: https://coinmetrics.io/community-network-data/
+
+btc <- read.csv("btc.csv", header = TRUE)
+btc <- data.frame(btc[,c(1,25)])
+dimnames(btc)
+dim(btc)
+head(btc)
+tail(btc)
+
+plot(btc[,2], type="l", col="gold", main = "BTC-USD",
+     xlab="time post halving", ylab="BTC price (usd)")
+
+plot(as.Date(btc[1:863,1]),btc[1:863,2], type="l", col="gold", xlab=expression(paste("time post halving")), ylab="BTC price (usd)",
+     main = "BTC-USD 1st wave - Pizza day > 1st halving")
+plot(as.Date(btc[864:2182,1]),btc[864:2182,2], type="l", col="green", xlab=expression(paste("time post halving")), ylab="BTC price (usd)",
+     main = "BTC-USD 2nd wave - 1st halving > 2nd halving")
+plot(as.Date(btc[2183:3584,1]),btc[2183:3584,2], type="l", xlab=expression(paste("time post halving")), ylab="BTC price (usd)",
+     col="violet", main = "BTC-USD 3rd wave - 2nd halving > 3rd halving")
+abline(h=seq(0,20000,length.out=20),t="l",lty=1,col="gray")
+
+plot(as.Date(btc[3585:3891,1]),btc[3585:3891,2], type="l", xlab=expression(paste("time post halving")), ylab="BTC price (usd)",
+     col="red", main = "BTC-USD 3rd wave - 2nd halving > 3rd halving")
+abline(h=seq(0,60000,length.out=20),t="l",lty=1,col="gray")
+
+# Prices Vectors
+
+wave.1 = btc[1:863,2]
+wave.2 = btc[864:2182,2]
+wave.3 = btc[2183:3584,2]
+wave.4 = btc[3585:3891,2]
+
+btc[2183:3584,]
+
+length(wave.1)
+length(wave.2)
+length(wave.3)
+length(wave.4)
+
+### Derivatives
+
+library("signal")
+
+### First Wave
+
+wave.1.sg <- sgolayfilt(wave.1, n=5, m=0)
+wave.1.der1 <- sgolayfilt(wave.1, n=5, m=1)
+wave.1.der2 <- sgolayfilt(wave.1, n=5, m=2)
+
+plot(wave.1.der1[150:863]*8, type="l", xlab=expression(paste("time post halving")), 
+     ylab="Adjusted price", ylim=c(-50,50), main = "Bitcoin LineUp: 1st Wave - 1 Der", col="gold4")
+lines(wave.1.sg[150:863], type="l",col="yellow3")
+#abline(h=seq(-20,30,length.out=50),v=seq(0,800,20),
+#       lty=1,col="gray")
+abline(h=2.14,lty=3,col="red")
+
+max(wave.1.der1)
+
+plot(wave.1.der2[150:863]*8, type="l", xlab=expression(paste("time post halving")), 
+     ylab="Adjusted price", ylim=c(-5,30), main = "Bitcoin LineUp: 1st Wave - 2 Der", col="gold4")
+lines(wave.1.sg[150:863], type="l",col="yellow3")
+abline(h=seq(-20,30,length.out=50),v=seq(0,800,20),
+       lty=1,col="gray")
+abline(h=2.14,lty=3,col="red")
+
+length(wave.1.sg)
+
+length(wave.1.der1)
+length(wave.1.der2)
+
+wave.1.sg.scale = scale(wave.1.sg, scale=T, c = T)
+wave.1.der2.scale = sgolayfilt(wave.1.sg.scale, n=5, m=2)
+
+plot(wave.1.sg,wave.1.der2.scale,type="p", xlab="price", 
+     ylab="2nd derivative scaled", main = "Bitcoin LineUp: 1st Wave - 2 Der", col="gold4")
+abline(h=-0.5,lty=3,col="red")
+abline(h=-0.2,lty=3,col="red")
+abline(h=0.5,lty=3,col="blue")
+abline(h=0.2,lty=3,col="blue")
+
+
+# Price Support
+
+wave.1[487]
+wave.1.sg[487]
+wave.1.der1[487]
+wave.1.der2[487]
+
+wave.1[283]
+wave.1.sg[283]
+wave.1.der1[283]
+wave.1.der2[283]
+
+# Max Price
+
+max(wave.1)
+wave.1[324]
+wave.1.sg[324]
+wave.1.der1[325]
+wave.1.der2[325]
+min(wave.1.der1)
+
+### Second Wave
+
+wave.2.sg <- sgolayfilt(wave.2, n=5, m=0)
+wave.2.der1 <- sgolayfilt(wave.2, n=5, m=1)
+wave.2.der2 <- sgolayfilt(wave.2, n=5, m=2)
+
+max(wave.2.der1)
+min(wave.2.der1)
+max(wave.2)
+
+
+plot(wave.2.der1*8, type="l", xlab=expression(paste("time post halving")), 
+     ylab="price", main = "Bitcoin LineUp: 2nd Wave - 1 Der", col="green4")
+lines(wave.2.sg, type="l",col="green")
+abline(h=214,lty=3,col="red")
+
+wave.2.sg.scale = scale(wave.2.sg, scale=T, c = T)
+wave.2.der2.scale = sgolayfilt(wave.2.sg.scale, n=5, m=2)
+
+plot(wave.2.sg,wave.2.der2.scale,type="p", xlab="price", 
+     ylab="2nd derivative (normalized)", 
+     main = "Bitcoin LineUp: 2nd Wave - 2 Der", col="green")
+abline(h=-0.2,lty=3,col="red")
+abline(h=-0.4,lty=3,col="red")
+abline(h=0.2,lty=3,col="blue")
+abline(h=0.5,lty=3,col="blue")
+
+# 3 wave
+
+wave.3.sg <- sgolayfilt(wave.3, n=5, m=0)
+wave.3.der1 <- sgolayfilt(wave.3, n=5, m=1)
+wave.3.der2 <- sgolayfilt(wave.3, n=5, m=2)
+
+
+max(wave.3.der1)
+min(wave.3.der1)
+max(wave.3)
+
+plot(wave.3.der1*8, type="l", xlab=expression(paste("time post halving")), 
+     ylab="price", main = "Bitcoin LineUp: 3rd Wave - 1 Der", col="darkviolet")
+lines(wave.3.sg, type="l",col="violet")
+abline(h=3300,lty=3,col="red")
+
+wave.3.sg.scale = scale(wave.3.sg, scale=T, c = T)
+wave.3.der2.scale = sgolayfilt(wave.3.sg.scale, n=5, m=2)
+
+plot(wave.3.sg,wave.3.der2.scale,type="p", xlab="price", 
+     ylab="2nd derivative (normalized)", 
+     main = "Bitcoin LineUp: 3rd Wave - 2 Der", col="violet")
+abline(h=-0.2,lty=3,col="red")
+abline(h=-0.3,lty=3,col="red")
+abline(h=0.2,lty=3,col="blue")
+abline(h=0.3,lty=3,col="blue")
+
+# 4 wave 
+
+wave.4.sg <- sgolayfilt(wave.4, n=5, m=0)
+wave.4.der1 <- sgolayfilt(wave.4, n=5, m=1)
+wave.4.der2 <- sgolayfilt(wave.4, n=5, m=2)
+
+plot(wave.4.der1*8, type="l", xlab=expression(paste("time post halving")), 
+     ylab="price", ylim=c(-60000,65000),main = "Bitcoin LineUp: 4th Wave - 1 Der", col="red")
+lines(wave.4.sg, type="l",col="darkred")
+abline(h=40000,lty=3,col="red")
+
+wave.4.sg.scale = scale(wave.4.sg, scale=T, c = T)
+wave.4.der2.scale = sgolayfilt(wave.4.sg.scale, n=5, m=2)
+
+plot(wave.4.sg,wave.4.der2.scale,type="p", xlab="price", 
+     ylab="2nd derivative (normalized)", ylim=c(-0.4,0.4), 
+     main = "Bitcoin LineUp: 4th Wave - 2 Der", col="red4")
+abline(h=-0.15,lty=3,col="red")
+abline(h=-0.2,lty=3,col="red")
+abline(h=0.15,lty=3,col="blue")
+abline(h=0.2,lty=3,col="blue")
